@@ -26,73 +26,74 @@ public class Algebra {
 	// Returns x1 + x2
 	public static int plus(int x1, int x2) {
 		// Replace the following statement with your code
-		int result = x1;
-		for (int i =0; i<x2;i++){
-			result++;
-		}
-		return result;
+		if (x2 >= 0) {
+        for (int i = 0; i < x2; i++) x1++;
+    	} else {
+        for (int i = 0; i < -x2; i++) x1--;
+   		}
+   		 return x1;
 	}
 
 	// Returns x1 - x2
 	public static int minus(int x1, int x2) {
-		int result = x1;
-		for (int i =0; i<x2;i++){
-			result--;
-		}
-		return result;
-	}
+
+   	 return plus(x1, -x2);
+	}	
+
+	
 
 	// Returns x1 * x2
 	public static int times(int x1, int x2) {
-		int result = 0;
-		for (int i =0; i<x2;i++){
-			result= plus(result, x1);
-		}
-		return result;
-	}
+   		 int result = 0;
+   		 boolean negative = false;
+    	if (x1 < 0) { x1 = -x1; negative = !negative; }
+    	if (x2 < 0) { x2 = -x2; negative = !negative; }
+
+   		for (int i = 0; i < x2; i++) {
+       		 result = plus(result, x1);
+    	}
+    	if (negative) result = -result;
+    return result;
+}
+
 
 	// Returns x^n (for n >= 0)
 	public static int pow(int x, int n) {
-		int result = x;
-		for (int i =0; i<n-1;i++){
-			result= times(result, x);
+		int result = 1;
+		for (int i = 0; i < n; i++) {
+			result = times(result, x);
 		}
 		return result;
-	}
+}
 
 	// Returns the integer part of x1 / x2 
 	public static int div(int x1, int x2) {
 		// Replace the following statement with your code
-		int result = x1;
+		if (x2 == 0) throw new ArithmeticException("Division by zero");
+		boolean negative = false;
+		if (x1 < 0) { x1 = -x1; negative = !negative; }
+		if (x2 < 0) { x2 = -x2; negative = !negative; }
 		int count = 0;
-		while (result >= x2) {         
-  		int temp = x2;             
-    	while (temp != 0) {
-        result--;               
-        temp--;               
-    	}
-    	count++;                   
-	}
-		return count;
-
+		while (x1 >= x2) {
+			x1 = minus(x1, x2);
+			count++;
+		}
+		if (negative) count = -count;
+		return count;               
 	}
 
 	// Returns x1 % x2
 	public static int mod(int x1, int x2) {
 		// Replace the following statement with your code
-		int result = x1;
-		int count = 0;
-		while (result >= x2) {         
-  			int temp = x2;             
-    		while (temp != 0) {
-			result--;               
-			temp--;               
-    	}
-    	count++;                   
-		}
-		return result;
+		if (x2 == 0) throw new ArithmeticException("Modulo by zero");
+		boolean negative = x1 < 0;
+		if (x1 < 0) x1 = -x1;
+		if (x2 < 0) x2 = -x2;
+		while (x1 >= x2) x1 = minus(x1, x2);
+		if (negative) x1 = -x1;
+		return x1;
+	}
 
-	}	
 
 	// Returns the integer part of sqrt(x) 
 	public static int sqrt(int x) {
